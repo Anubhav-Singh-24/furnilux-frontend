@@ -7,7 +7,7 @@ import {
 } from "../utils/common_utils";
 import { API_NOTIFICATION_MESSAGES, service_urls } from "./constants";
 
-const API_URL = "http://localhost:3000";
+const API_URL = "https://furnilux-backend.onrender.com";
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
