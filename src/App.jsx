@@ -20,6 +20,7 @@ import ViewCart from "./components/ViewCart";
 import PaymentPage from "./components/PaymentPage";
 import Purchase from "./components/Purchase";
 import ScrollToTop from "./components/ScrollToTop";
+import PageNotFound from "./components/PageNotFound";
 
 function App() {
   const PrivateRoute = ({ isauthenticated, ...props }) => {
@@ -87,6 +88,7 @@ function App() {
               element={<Purchase isauthenticated={isauthenticated} />}
             />
           </Route>
+          <Route path="*" element={<PageNotFound/>}/>
         </Routes>
         <Footer />
       </BrowserRouter>
