@@ -162,7 +162,7 @@ const Login = ({ setIsAuthenticated }) => {
                   </svg>
                   <input
                     type="text"
-                    className="grow input-lg"
+                    className="grow xl:input-lg input-sm"
                     placeholder="Email"
                     name="email"
                     required={true}
@@ -191,7 +191,7 @@ const Login = ({ setIsAuthenticated }) => {
                   </svg>
                   <input
                     type={lgshowpswd ? "text" : "password"}
-                    className="grow input-lg"
+                    className="grow xl:input-lg input-sm"
                     placeholder="Password"
                     name="password"
                     required={true}
@@ -225,7 +225,7 @@ const Login = ({ setIsAuthenticated }) => {
                   </svg>
                   <input
                     type="text"
-                    className="grow input-lg"
+                    className="grow xl:input-lg input-sm"
                     placeholder="Name"
                     name="name"
                     required={true}
@@ -250,7 +250,7 @@ const Login = ({ setIsAuthenticated }) => {
                   </svg>
                   <input
                     type="text"
-                    className="grow input-lg"
+                    className="grow xl:input-lg input-sm"
                     placeholder="Email"
                     name="email"
                     required={true}
@@ -279,7 +279,7 @@ const Login = ({ setIsAuthenticated }) => {
                   </svg>
                   <input
                     type={sgshowpswd ? "text" : "password"}
-                    className="grow input-lg"
+                    className="grow xl:input-lg input-sm"
                     placeholder="Password"
                     required={true}
                     name="password"
@@ -302,7 +302,7 @@ const Login = ({ setIsAuthenticated }) => {
               </button>
             </form>
           )}
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex xl:flex-row flex-col justify-center items-center gap-4">
             <span>
               {toggle ? "Don't have an account ?" : "Already have an account ?"}
             </span>
