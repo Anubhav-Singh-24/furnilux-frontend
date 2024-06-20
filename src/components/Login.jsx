@@ -8,6 +8,7 @@ import { DataContext } from "../context/DataProvider";
 
 const Login = ({ setIsAuthenticated }) => {
   const [toggle, setToggle] = useState(true);
+  const [loading,setLoading] = useState(false);
   const [lgshowpswd, setLgShowPswd] = useState(false);
   const [sgshowpswd, setSgShowPswd] = useState(false);
   const [login, setLogin] = useState({ email: "", password: "" });
@@ -92,6 +93,7 @@ const Login = ({ setIsAuthenticated }) => {
 
   const loginuser = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await API.userLogin(login);
       if (response.isSuccess) {
@@ -106,10 +108,12 @@ const Login = ({ setIsAuthenticated }) => {
     } catch (error) {
       toast.error(error.msg)
     }
+    setLoading(false)
   };
 
   const signupuser = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await API.userSignup(signup);
       if (response.isSuccess) {
@@ -120,6 +124,7 @@ const Login = ({ setIsAuthenticated }) => {
     } catch (error) {
       toast.error(error.msg)
     }
+    setLoading(false)
   };
 
   return (
@@ -197,10 +202,10 @@ const Login = ({ setIsAuthenticated }) => {
               </div>
               <button
                 type="submit"
-                disabled={!login.email || !login.password}
+                disabled={!login.email || !login.password || loading}
                 className="py-2 px-8 lg:py-4 lg:px-16 font-bold bg-[#B88E2F] text-white hover:bg-white hover:text-[#b88e2f] duration-300 ease-in-out border-[#b88e2f] border-2 border-solid"
               >
-                Log In
+                {loading ? "Logging In..." : "Log In"}
               </button>
             </form>
           ) : (
@@ -293,7 +298,7 @@ const Login = ({ setIsAuthenticated }) => {
                 disabled={!signup.email || !signup.name || !signup.password}
                 className="py-2 px-8 lg:py-4 lg:px-16 font-bold bg-[#B88E2F] text-white hover:bg-white hover:text-[#b88e2f] duration-300 ease-in-out border-[#b88e2f] border-2 border-solid"
               >
-                Sign Up
+                {loading ? "Signing Up..." : "Sign Up"}
               </button>
             </form>
           )}
