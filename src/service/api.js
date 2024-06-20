@@ -83,20 +83,17 @@ const ProcessError = (error) => {
         window.location.reload();
       }
     } else {
-      console.log("ERROR IN RESPONSE: ", error.toJSON());
       return {
         msg: error.response.data.msg,
         code: error.response.status,
       };
     }
   } else if (error.request) {
-    console.log("ERROR IN RESPONSE: ", error.toJSON());
     return {
       msg: API_NOTIFICATION_MESSAGES.networkError.message,
       code: "",
     };
   } else {
-    console.log("ERROR IN RESPONSE: ", error.toJSON());
     return {
       msg: API_NOTIFICATION_MESSAGES.responseFailure.message,
       code: "",
