@@ -1,14 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { API } from "../service/api";
 import loginBg from "../assets/loginBg.webp";
 import { setAccessToken } from "../utils/common_utils";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { DataContext } from "../context/DataProvider";
+import Recaptcha from 'react-google-recaptcha'
 
 const Login = ({ setIsAuthenticated }) => {
   const [toggle, setToggle] = useState(true);
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [lgshowpswd, setLgShowPswd] = useState(false);
   const [sgshowpswd, setSgShowPswd] = useState(false);
   const [login, setLogin] = useState({ email: "", password: "" });
@@ -20,9 +21,11 @@ const Login = ({ setIsAuthenticated }) => {
     pass: "",
   });
 
-  const {setAdded,setName} = useContext(DataContext)
+  const { setAdded, setName } = useContext(DataContext);
 
   const navigate = useNavigate();
+  const loginRef = useRef(null);
+  const signupRef = useRef(null);
 
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
@@ -93,42 +96,48 @@ const Login = ({ setIsAuthenticated }) => {
 
   const loginuser = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    const token = loginRef.current.getValue();
+    loginRef.current.reset();
+    login.token = token
+    setLoading(true);
     try {
       const response = await API.userLogin(login);
       if (response.isSuccess) {
         setAccessToken(response.data.accessToken);
         setIsAuthenticated(true);
-        setAdded((prev)=>!prev)
-        setName(response.data.name)
-        toast.success("Welcome back!!")
+        setAdded((prev) => !prev);
+        setName(response.data.name);
+        toast.success("Welcome back!!");
         setLogin({ email: "", password: "" });
         navigate("/");
       }
     } catch (error) {
-      toast.error(error.msg)
+      toast.error(error.msg);
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   const signupuser = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    const token = signupRef.current.getValue();
+    signupRef.current.reset();
+    signup.token = token;
+    setLoading(true);
     try {
       const response = await API.userSignup(signup);
       if (response.isSuccess) {
-        toast.success(response.data.msg)
+        toast.success(response.data.msg);
         setSignup({ email: "", name: "", password: "" });
         setToggle(!toggle);
       }
     } catch (error) {
-      toast.error(error.msg)
+      toast.error(error.msg);
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   return (
-    <div className="w-full relative h-[80vh] py-20 flex justify-center items-center xl:px-5 px-2">
+    <div className="w-full relative h-[95vh] py-20 flex justify-center items-center xl:px-5 px-2">
       <div
         className="absolute inset-0"
         style={{
@@ -200,6 +209,10 @@ const Login = ({ setIsAuthenticated }) => {
                   />
                 </label>
               </div>
+              <Recaptcha
+                sitekey={import.meta.env.VITE_SITE_KEY}
+                ref={loginRef}
+              />
               <button
                 type="submit"
                 disabled={!login.email || !login.password || loading}
@@ -234,7 +247,7 @@ const Login = ({ setIsAuthenticated }) => {
                   />
                 </label>
                 {signupErrors.name && (
-                  <p className="text-red-500">{signupErrors.name}</p>
+                  <p className="text-red-500 text-sm">{signupErrors.name}</p>
                 )}
               </div>
               <div className="flex flex-col gap-2 items-center justify-center">
@@ -259,7 +272,7 @@ const Login = ({ setIsAuthenticated }) => {
                   />
                 </label>
                 {signupErrors.email && (
-                  <p className="text-red-500">{signupErrors.email}</p>
+                  <p className="text-red-500 text-sm">{signupErrors.email}</p>
                 )}
               </div>
               <div className="flex flex-col gap-2 items-center justify-center">
@@ -293,6 +306,10 @@ const Login = ({ setIsAuthenticated }) => {
                   </p>
                 )}
               </div>
+              <Recaptcha
+                sitekey={import.meta.env.VITE_SITE_KEY}
+                ref={signupRef}
+              />
               <button
                 type="submit"
                 disabled={!signup.email || !signup.name || !signup.password}
